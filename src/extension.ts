@@ -11,6 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let lastTimes = os.cpus().map(cpu => cpu.times);
     let intervalHandle: NodeJS.Timeout | undefined;
+    let useColors = true;
 
     function getCpuUsage(): number[] {
         const cpus = os.cpus();
@@ -47,9 +48,26 @@ export function activate(context: vscode.ExtensionContext) {
         return blocks[index];
     }
 
+    function getColor(avgLoad: number): vscode.ThemeColor {
+        if (avgLoad >= 0.8) {
+            return new vscode.ThemeColor('charts.red');
+        } else if (avgLoad >= 0.6) {
+            return new vscode.ThemeColor('charts.orange');
+        } else if (avgLoad >= 0.3) {
+            return new vscode.ThemeColor('charts.yellow');
+        }
+        return new vscode.ThemeColor('charts.green');
+    }
+
     function updateStatusBar() {
         const loads = getCpuUsage();
         const bars = loads.map(u => toBar(u)).join("");
+        const avgLoad = loads.reduce((a, b) => a + b, 0) / loads.length;
+        if (useColors) {
+            statusBar.color = getColor(avgLoad);
+        } else {
+            statusBar.color = undefined;
+        }
         statusBar.text = `CPU: ${bars}`;
     }
 
@@ -62,14 +80,20 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     context.subscriptions.push(vscode.commands.registerCommand(commandId, async () => {
-        const options = ["500ms", "1000ms", "2000ms"];
+        const colorOption = useColors ? "Disable Colors" : "Enable Colors";
+        const options = ["500ms", "1000ms", "2000ms", colorOption];
         const selection = await vscode.window.showQuickPick(options, {
-            placeHolder: "Select update frequency"
+            placeHolder: "Select update frequency or toggle colors"
         });
 
         if (selection) {
-            const ms = parseInt(selection.replace("ms", ""));
-            startInterval(ms);
+            if (selection === colorOption) {
+                useColors = !useColors;
+                updateStatusBar();
+            } else {
+                const ms = parseInt(selection.replace("ms", ""));
+                startInterval(ms);
+            }
         }
     }));
 

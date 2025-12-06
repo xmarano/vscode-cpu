@@ -2,7 +2,7 @@
   "name": "vscode-cpu-status",
   "displayName": "CPU Status",
   "description": "Shows CPU core usage as bars in the status bar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.90.0"
   },
