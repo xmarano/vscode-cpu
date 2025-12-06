@@ -1,6 +1,6 @@
 {
-  "name": "vscode-cpu-monitor",
-  "displayName": "CPU Monitor",
+  "name": "vscode-cpu-status",
+  "displayName": "CPU Status",
   "description": "Shows CPU core usage as bars in the status bar",
   "version": "0.0.2",
   "engines": {
