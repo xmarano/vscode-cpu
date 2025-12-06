@@ -2,9 +2,9 @@
 
 A minimalist extension that displays real-time CPU usage per core in your status bar.
 
-![Extension Screenshot](https://github.com/xmarano/vscode-cpu/exemple.png)
+![Extension Screenshot](https://raw.githubusercontent.com/xmarano/vscode-cpu/refs/heads/main/exemple.png)
 
-Download : [here](https://marketplace.visualstudio.com/items?itemName=xmarano.vscode-cpu-status&ssr=false#review-details)
+Download : [here](https://marketplace.visualstudio.com/items?itemName=xmarano.vscode-cpu-monitor&ssr=false#review-details)
 
 ## Features
 
